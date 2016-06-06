@@ -1,0 +1,27 @@
+<md-content layout="column" layout-align="center center" class="full_height">
+ 
+  <form action="" name="loginForm" ng-submit="login()">
+    <div layout="column" layout-align="center center">
+     
+      <div class="logo">
+        
+      </div>
+      
+      <div class="credentials_container">
+        <md-input-container flex>
+          <label>User Name/Email</label>
+          <input type="email" maxlength="30" name="username" required ng-model="credentials.username"/>
+        </md-input-container>
+        <md-input-container flex>
+          <label>Password</label>
+          <input type="password" maxlength="10" required ng-model="credentials.password"/>
+        </md-input-container>
+      </div>
+      
+      <div class="button_container full_width">
+        <md-button class="md-raised full_width no_margin">Login</md-button>
+      </div>
+      
+    </div>
+  </form>
+</md-content>

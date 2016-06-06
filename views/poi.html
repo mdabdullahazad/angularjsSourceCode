@@ -1,0 +1,166 @@
+<div ng-controller="PoiCtrl">
+
+  <form action="" ng-submit="submitPoi($event)">
+    <div layout="row" layout-wrap layout-sm="column">
+      <!--first column-->
+      <div flex="32" layout-padding layout-margin class="poi_columns">
+        <label class="field_label">Add POI</label>
+        <md-input-container>
+          <select name="" id="" ng-model="newPoi.country" ng-change="getRespectiveStates()" ng-options="country.id as country.name for country in countries" required>
+            <option value="">Select Country</option>
+          </select>
+          <!--<md-select placeholder="Select Country" ng-model="cluster.country" required>
+            <md-option value="{{country.id}}" ng-repeat="country in countries">{{country.name}}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <md-input-container>
+          <select name="" id="" ng-model="newPoi.state" ng-change="getRespectiveCities()" ng-options="state.id as state.name for state in states" required>
+            <option value="">Select State</option>
+          </select>
+          <!--<md-select placeholder="Select State" ng-model="cluster.state" required ng-change="getRespectiveCities(2)">
+            <md-option value="{{state.stateId}}" ng-repeat="state in clusterStates">{{state.stateName}}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <md-input-container>
+          <select name="" id="" ng-model="newPoi.city" ng-change="getRespectiveClusters()" ng-options="city.id as city.name for city in cities" required>
+            <option value="">Select City</option>
+          </select>
+          <!--<md-select placeholder="Select city" ng-model="cluster.country" required>
+            <md-option value="{{country.value}}" ng-repeat="country in countries">{{country.label}}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <label class="field_label">Type of Place</label>
+        <md-input-container>
+          <md-select placeholder="Select type of POI" ng-model="selectedPoiType" required>
+            <md-option value="{{poiType.id}}" ng-repeat="poiType in poiTypes">{{poiType.name}}</md-option>
+          </md-select>
+        </md-input-container>
+        <label class="field_label">Best Time to Visit</label>
+        <md-input-container>
+          <md-select placeholder="Select time to visit" ng-model="selectedTimeslot" required>
+            <md-option value="{{timeslot.id}}" ng-repeat="timeslot in poiTimeslots">{{timeslot.name}}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label>Time to be spent in this place</label>
+          <input type="number" maxlength="20" name="hours" required ng-model="selectedHours" />
+        </md-input-container>
+        <md-input-container>
+          <label>Ranking Priority</label>
+          <input type="number" maxlength="20" name="priority" required ng-model="selectedPriority" />
+        </md-input-container>
+          <md-input-container>
+          <label>Extra Information</label>
+          <input type="text"  name="name" required ng-model="newPoi.extraInfo" />
+        </md-input-container>
+      </div>
+
+      <!--second column-->
+      <div flex="32" layout-padding layout-margin class="poi_columns">
+        <label class="field_label">Geo - Cluster</label>
+        <md-input-container>
+          <md-select placeholder="Select Geo-Cluster" ng-model="newPoi.cluster" required>
+            <md-option value="{{cluster.id}}" ng-repeat="cluster in clusters">{{cluster.name}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div layout="row">
+          <md-input-container layout-padding>
+            <label>Latitude</label>
+            <input type="text" maxlength="17" name="latitude" required ng-model="newPoi.latitude" />
+          </md-input-container>
+          <md-input-container layout-padding>
+            <label>Longitude</label>
+            <input type="text" maxlength="17" name="longitude" required ng-model="newPoi.longitude" />
+          </md-input-container>
+		  <div class="full_width display_inline_blk map_pin" ng-click="pickLatLng($event)"></div>
+        </div>
+        <md-input-container>
+          <label>Name of POI</label>
+          <input type="text" maxlength="20" name="country" required ng-model="newPoi.name" />
+        </md-input-container>
+          
+        <md-input-container>
+          <label>Contact Name</label>
+          <input type="text" maxlength="20" name="country" required ng-model="newPoi.contactName" />
+        </md-input-container>
+          
+        <label class="field_label">Price Information</label>
+        <md-input-container>
+          <md-select placeholder="Select Price" ng-model="newPoi.selectedPrice" required>
+            <md-option value="{{Price.id}}" ng-repeat="Price in PriceRanges">{{Price.floor}} - {{Price.ceiling}}</md-option>
+          </md-select>
+        </md-input-container>
+          
+        <label class="field_label">Slider Image</label>
+        <label class="gray_text small_font" layout-margin>Dimension: 600 x 250px</label>
+        <div layout="row" layout-margin>
+          <md-button flex="40" class="md-raised browse_slider_btn">
+            <!--<input type="file" value="Browse Image" onchange="angular.element(this).scope().setSliderImage(this)"></input>-->
+            <input type="file" onchange="angular.element(this).scope().setSliderImage(this)" />Browse Image</md-button>
+          <md-button class="browse_slider_btn">
+            <input type="file" multiple value="Browse Image" onchange="angular.element(this).scope().setSliderImage(this)"></input>Add Multiple Images</md-button>
+        </div>
+        <div class="images_container">
+          <table class="full_width">
+            <tbody>
+              <tr ng-repeat="image in sliderImages">
+                <td>
+                  <div class="display_inline_blk thumbnail" style="background:url({{image.srcUrl}}) no-repeat center">
+                    <div class="hide remove_thumb_btn" ng-click="removeSliderImage($index)"></div>
+                  </div>
+                </td>
+                <td>
+                  <textarea placeholder="Say something about this image..." ng-model="image.desc" class="img_desc" name="" id="" cols="30" rows="4" required></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!--<md-progress-linear md-mode="{{mode}}" value="{{uploadProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ uploadProgress }}%;"></md-progress-linear>-->
+
+
+        <div>&nbsp;</div>
+        <div ng-show="sliderImages.length == 0">
+        <label class="field_label">Description</label>
+        <label class="gray_text small_font" layout-margin>Add multiple descriptions separated by commas</label>
+        <textarea name="" id="" cols="30" rows="5" class="description_box" ng-model="newPoi.description" required></textarea>
+        </div>
+      </div>
+
+      <!--third column-->
+      <div flex="32" layout-padding layout-margin class="poi_columns">
+        <md-input-container>
+          <label>Video URL | Vimeo URL</label>
+          <input type="url" name="videoUrl" required ng-model="newPoi.videoUrl" />
+        </md-input-container>
+        <md-input-container>
+          <label>Audio URL | Sound Cloud URL</label>
+          <input type="url" name="audioUrl" required ng-model="newPoi.audioUrl" />
+        </md-input-container>
+        <md-input-container>
+          <label>Phone Number</label>
+          <input type="tel" maxlength="15" name="phone" required ng-model="newPoi.phone" />
+        </md-input-container>
+        <md-input-container>
+          <label>Address</label>
+          <input type="text" maxlength="100" name="address" required ng-model="newPoi.address" />
+        </md-input-container>
+        <label class="field_label">Thumbnail</label>
+        <label class="gray_text small_font" layout-margin>Dimension: 250 x 250px</label>
+
+        <div class="thumbnail_container" layout-margin>
+          <md-button flex="40" class="md-raised browse_slider_btn">
+            <input onchange="angular.element(this).scope().setThumbnail(this)" ng-model="thumbnail.fileName" type="file" value="Browse Image" accept="image/*">Browse Image</input>
+          </md-button>
+          <div class="display_inline_blk thumbnail" style="background:url({{thumbnail.srcUrl}}) no-repeat center">
+            <div class="hide remove_thumb_btn" ng-click="removeThumbnail()"></div>
+          </div>
+        </div>
+
+        <md-button class="md-raised md-primary full_width no_margin">Submit POI</md-button>
+      </div>
+    </div>
+  </form>
+</div>
+

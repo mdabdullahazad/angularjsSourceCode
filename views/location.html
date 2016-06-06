@@ -1,0 +1,223 @@
+<div ng-controller="LocationCtrl">
+
+  <div layout="row" layout-wrap layout-sm="column">
+
+    <!--first column-->
+    <div flex="45" layout-padding layout-margin layout="column">
+
+      <!--first row in first column-->
+      <div layout="row" layout-sm="column" layout-align="top center" class="loc_holder">
+
+        <div flex="40" layout-padding flex-order-sm="1">
+          <span class="field_label">Existing Country List</span>
+          <div class="list_box">
+            <md-list>
+              <md-list-item ng-repeat="country in countries">
+                <p>{{ country.name }}</p>
+              </md-list-item>
+            </md-list>
+          </div>
+        </div>
+        <div flex layout-padding flex-order-sm="2">
+          <form action="" ng-submit="addCountry($event)">
+            <label class="field_label">Add Country</label>
+            <md-input-container>
+              <label>Country</label>
+              <input type="text" maxlength="20" name="country" required ng-model="newCountry.name" />
+            </md-input-container>
+            <div layout="row">
+              <md-input-container>
+                <label>Latitude</label>
+                <input type="text"  name="latitude" required ng-model="newCountry.lat" />
+              </md-input-container>
+              <md-input-container layout-padding>
+                <label>Longitude</label>
+                <input type="text"  name="longitude" required ng-model="newCountry.lng" />
+              </md-input-container>
+            </div>
+            <md-button class="md-raised md-primary full_width no_margin">Add Country</md-button>
+          </form>
+        </div>
+
+      </div>
+
+      <!--second row in first column-->
+      <div layout="row" layout-sm="column" layout-align="top center" class="loc_holder">
+
+        <div flex="40" layout-padding flex-order-sm="1">
+          <div ng-if="states.length > 0">
+            <span class="field_label">Existing State List</span>
+            <div class="list_box">
+              <md-list>
+                <md-list-item ng-repeat="state in states">
+                  <p>{{ state.name }}</p>
+                </md-list-item>
+              </md-list>
+            </div>
+          </div>
+        </div>
+        <div flex layout-padding flex-order-sm="2">
+          <form action="" ng-submit="addState($event)">
+            <label class="field_label">Add State</label>
+            <select name="" id="" ng-model="countryforNewState" ng-change="getRespectiveStates(11)" ng-options="country.id as country.name for country in countries" required>
+              <option value="">Select Country</option>
+            </select>
+            <!--<md-select placeholder="Select Country" ng-model="countryForState" required>
+              <md-option value="{{country.countryId}}" ng-repeat="country in countries">{{country.countryName}}</md-option>
+            </md-select>-->
+            <md-input-container>
+              <label>State</label>
+              <input type="text" maxlength="20" name="state" required ng-model="newState.name" />
+            </md-input-container>
+            <div layout="row">
+              <md-input-container>
+                <label>Latitude</label>
+                <input type="text" name="latitude" required ng-model="newState.lat" />
+              </md-input-container>
+              <md-input-container layout-padding>
+                <label>Longitude</label>
+                <input type="text"  name="longitude" required ng-model="newState.lng" />
+              </md-input-container>
+            </div>
+            <md-button class="md-raised md-primary full_width no_margin">Add State</md-button>
+          </form>
+        </div>
+
+      </div>
+
+      <!--third row in first column-->
+      <div layout="row" layout-sm="column" layout-align="top center" class="loc_holder">
+
+        <div flex="40" layout-padding flex-order-sm="1">
+          <div ng-if="cities.length > 0">
+            <span class="field_label">Existing City List</span>
+            <div class="list_box">
+              <md-list>
+                <md-list-item ng-repeat="city in cities">
+                  <p>{{ city.name }}</p>
+                </md-list-item>
+              </md-list>
+            </div>
+          </div>
+        </div>
+        <div flex layout-padding flex-order-sm="2">
+          <form action="" ng-submit="addCity($event)">
+            <label class="field_label">Add City</label>
+            <md-input-container>
+              <select name="" id="" ng-model="countryforNewCity" ng-change="getRespectiveStates(12)" ng-options="country.id as country.name for country in countries" required>
+                <option value="">Select Country</option>
+              </select>
+            </md-input-container>
+            <md-input-container>
+              <select name="" id="" ng-model="stateForNewCity" ng-change="getRespectiveCities(1)" ng-options="state.id as state.name for state in statesForNewCity" required>
+                <option value="">Select State</option>
+              </select>
+            </md-input-container>
+            <!--<md-select placeholder="Select State" ng-model="stateForCity" required>
+              <md-option value="{{state.stateId}}" ng-repeat="state in states">{{state.stateName}}</md-option>
+            </md-select>-->
+            <md-input-container>
+              <label>City</label>
+              <input type="text" maxlength="20" name="city" required ng-model="newCity.name" />
+            </md-input-container>
+            <div layout="row">
+              <md-input-container>
+                <label>Latitude</label>
+                <input type="text" name="latitude" required ng-model="newCity.lat" />
+              </md-input-container>
+              <md-input-container layout-padding>
+                <label>Longitude</label>
+                <input type="text" name="longitude" required ng-model="newCity.lng" />
+              </md-input-container>
+            </div>
+            <md-button class="md-raised md-primary full_width no_margin">Add City</md-button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!--second column-->
+    <div flex="27" layout-padding layout-margin>
+      <form action="" ng-submit="addCluster($event)">
+        <label class="field_label">Add Clusters</label>
+        <md-input-container>
+          <select name="" id="" ng-model="cluster.country" ng-change="getRespectiveStates(2)" ng-options="country.id as country.name for country in countries" required>
+            <option value="">Select Country</option>
+          </select>
+          <!--<md-select placeholder="Select Country" ng-model="cluster.country" required>
+            <md-option value="{{country.id}}" ng-repeat="country in countries">{{country.name}}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <md-input-container>
+          <select name="" id="" ng-model="cluster.state" ng-change="getRespectiveCities(2)" ng-options="state.id as state.name for state in clusterStates" required>
+            <option value="">Select State</option>
+          </select>
+          <!--<md-select placeholder="Select State" ng-model="cluster.state" required ng-change="getRespectiveCities(2)">
+            <md-option value="{{state.stateId}}" ng-repeat="state in clusterStates">{{state.stateName}}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <md-input-container>
+          <select name="" id="" ng-model="cluster.city" ng-options="city.id as city.name for city in clusterCities" required>
+            <option value="">Select City</option>
+          </select>
+          <!--<md-select placeholder="Select City" ng-model="cluster.city" required>
+            <md-option value="{{city.cityId}}" ng-repeat="city in cities">{{ city.cityName }}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <md-input-container>
+          <label>Name of Cluster</label>
+          <input type="text" maxlength="20" name="name" required ng-model="cluster.name" />
+        </md-input-container>
+        <md-button class="md-raised md-primary full_width no_margin">Add Cluster</md-button>
+      </form>
+    </div>
+
+    <!--third column-->
+    <div flex="27" layout-padding layout-margin>
+      <form action="" ng-submit="addPoiToCluster($event)">
+        <label class="field_label">Add POI to Existing Clusters</label>
+
+        <md-input-container>
+          <select name="" id="" ng-model="ClusterPoi.country" ng-change="getRespectiveStates(3)" ng-options="country.id as country.name for country in countries" required>
+            <option value="">Select Country</option>
+          </select>
+          <!--<md-select placeholder="Select Country" ng-model="ClusterPoi.country" required ng-change="getRespectiveStates(3)">
+            <md-option value="{{country.id}}" ng-repeat="country in countries">{{country.name}}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <md-input-container>
+          <select name="" id="" ng-model="ClusterPoi.state" ng-change="getRespectiveCities(3)" ng-options="state.id as state.name for state in poiStates" required>
+            <option value="">Select State</option>
+          </select>
+          <!--<md-select placeholder="Select State" ng-model="ClusterPoi.state" required ng-change="getRespectiveCities()">
+            <md-option value="{{state.stateId}}" ng-repeat="state in states">{{state.stateName}}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <md-input-container>
+          <select name="" id="" ng-model="ClusterPoi.city" ng-change="getRespectiveClusters()" ng-options="city.id as city.name for city in poiCities" required>
+            <option value="">Select City</option>
+          </select>
+          <!--<md-select placeholder="Select City" ng-model="ClusterPoi.city" required>
+            <md-option value="{{city.cityId}}" ng-repeat="city in cities">{{ city.cityName }}</md-option>
+          </md-select>-->
+        </md-input-container>
+        <md-input-container>
+          <p class="md-caption no_margin field_label">Choose Cluster</p>
+          <md-select placeholder="Select Cluster" ng-model="ClusterPoi.cluster" required>
+            <md-option value="{{cluster.id}}" ng-repeat="cluster in clusters">{{ cluster.name }}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <p class="md-caption no_margin field_label">Choose POI</p>
+          <md-select placeholder="Select POI" ng-model="ClusterPoi.poi" required>
+            <md-option value="{{poi.id}}" ng-repeat="poi in pois">{{ poi.name }}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-button class="md-raised md-primary full_width no_margin">Add POI to Cluster</md-button>
+      </form>
+    </div>
+  </div>
+
+</div>
+

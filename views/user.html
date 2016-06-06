@@ -1,0 +1,26 @@
+<div ng-controller="UserCtrl">
+
+    
+  <div layout="column" class="user_container" layout-align="center center" layout-wrap layout-sm="column">
+    <div layout-padding class="poi_columns full_width" layout_margin layout_padding>
+      <form action="" name="userForm" ng-submit="registerCmsUser($event)">
+        <div>
+          <md-input-container flex>
+            <label>User Email</label>
+            <input type="text" maxlength="30" name="userEmail" required ng-model="credentials.userEmail" />
+          </md-input-container>
+          <md-input-container flex>
+            <label>Password</label>
+            <input type="password" maxlength="10" name="password" required ng-model="credentials.password" />
+          </md-input-container>
+          <div class="button_container full_width" layout_margin>
+            <md-button class="md-raised md-primary full_width no_margin">Add User</md-button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+    
+</div>
+

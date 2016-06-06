@@ -1,0 +1,14 @@
+<div>
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom md-selected="0">
+      <md-tab ng-disabled="!header.isactive" label="{{header.label}}" ng-repeat="header in tabs.headers"> 
+        <md-content class="md-padding">
+          <h2 class="no_margin normal_font">{{header.label}} Information</h2>
+          <div ng-include="header.template"></div>
+        </md-content>
+      </md-tab>      
+    </md-tabs>
+  </md-content>
+  
+  
+</div>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width; height=device-height">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+  <link rel="stylesheet" href="bower_components/angular-native-picker/build/themes/default.css" />
+  <link rel="stylesheet" href="bower_components/angular-native-picker/build/themes/default.date.css" />
+  <link rel="stylesheet" href="bower_components/angular-native-picker/build/themes/default.time.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+</head>
+
+<body ng-app="tourismApp" ng-controller="CommonCtrl">
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+  <!-- Add your site or application content here -->
+
+  <div class="full_height" ui-view></div>
+
+  <div class="display_table modal_bg" ng-if="showModal">
+    <div class="display_tablecell">
+      <div class="modal_container" ng-class="{'alert_container' : modal.type === 'alert', 'popup_container' : modal.type === 'popup', 'tooltip_container' : modal.type === 'tooltip', 'map_container' : modal.type === 'map'}">
+        <div class="modal_header" ng-class="{'alert_error' : modal.alertType === 'error', 'alert_notification' : modal.alertType === 'notification', 'alert_warning' : modal.alertType === 'warning', 'modal_header_bg' : modal.alertType === 'default'}">
+          <label for="" class="modal_title">{{modal.title}}</label>
+          <label for="" class="modal_close right" ng-click="closeModal()">x</label>
+        </div>
+        <div class="modal_content">
+          <div ng-if="modal.type === 'alert'">{{modal.message}}</div>
+          <div ng-if="modal.type === 'popup'" ng-include="{{modal.contentUrl}}"></div>
+          <div ng-if="modal.type === 'map'">
+            <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events"></ui-gmap-google-map>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <md-toast ng-if="displayToast">
+    <span>{{toastMessage}}</span>
+  </md-toast>
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+  <script>
+    ! function(A, n, g, u, l, a, r) {
+      A.GoogleAnalyticsObject = l, A[l] = A[l] || function() {
+        (A[l].q = A[l].q || []).push(arguments)
+      }, A[l].l = +new Date, a = n.createElement(g),
+      r = n.getElementsByTagName(g)[0], a.src = u, r.parentNode.insertBefore(a, r)
+    }(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-XXXXX-X');
+    ga('send', 'pageview');
+  </script>
+
+  <!-- build:js(.) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/aws-sdk-js/dist/aws-sdk.js"></script>
+  <script src="bower_components/angular-md5/angular-md5.js"></script>
+  <script src="bower_components/angular-native-picker/build/angular-datepicker.js"></script>
+  <script src="bower_components/lodash/lodash.js"></script>
+  <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="config.js"></script>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/app-service.js"></script>
+  <script src="scripts/constants.js"></script>
+
+  <script src="scripts/factories/aws_file_uploader.js"></script>
+
+  <script src="scripts/controllers/login.js"></script>
+  <script src="scripts/controllers/dashboard.js"></script>
+  <script src="scripts/controllers/location.js"></script>
+  <script src="scripts/controllers/poi.js"></script>
+  <script src="scripts/controllers/accommodation.js"></script>
+  <script src="scripts/controllers/water_taxi.js"></script>
+  <script src="scripts/controllers/events.js"></script>
+  <script src="scripts/controllers/emergency_info.js"></script>
+  <script src="scripts/controllers/user.js"></script>
+  <script src="scripts/controllers/common_controller.js"></script>
+
+  <!--  endbuild -->
+</body>
+
+</html>
+

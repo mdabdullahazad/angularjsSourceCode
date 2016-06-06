@@ -1,0 +1,187 @@
+<div ng-controller="AccommodationCtrl" class="accommodation_holder">
+
+  <md-tabs md-dynamic-height md-border-bottom md-selected="currentSectionIndex">
+    <md-tab label="one">
+      <form action="">
+        <md-content class="md-padding">
+          <div layout="row" layout-wrap layout-sm="column">
+            <!--first column-->
+            <div flex="32" layout-padding layout-margin class="poi_columns">
+              <label class="field_label">Add Accommodation Country</label>
+              <md-input-container>
+                <select name="" id="" ng-model="newAccomodation.country" ng-change="getRespectiveStates()" ng-options="country.id as country.name for country in countries" required>
+                  <option value="">Select Country</option>
+                </select>
+              </md-input-container>
+              <label class="field_label">State</label>
+              <md-input-container>
+                <select name="" id="" ng-model="newAccomodation.state" ng-change="getRespectiveCities()" ng-options="state.id as state.name for state in states" required>
+                  <option value="">Select State</option>
+                </select>
+                <!--<md-select placeholder="Select State" ng-model="cluster.state" required ng-change="getRespectiveCities(2)">
+            <md-option value="{{state.stateId}}" ng-repeat="state in clusterStates">{{state.stateName}}</md-option>
+          </md-select>-->
+              </md-input-container>
+
+              <label class="field_label">City</label>
+              <md-input-container>
+                <select name="" id="" ng-model="newAccomodation.city" ng-change="getRespectiveClusters()" ng-options="city.id as city.name for city in cities" required>
+                  <option value="">Select City</option>
+                </select>
+                <!--   <md-select placeholder="Select city" ng-model="cluster.country" required>
+            <md-option value="{{city.value}}" ng-repeat="country in countries">{{city.label}}</md-option>
+           </md-select>  -->
+              </md-input-container>
+              <md-input-container>
+                <label>Ranking Priority</label>
+                <input type="number" maxlength="20" name="name" required ng-model="newAccomodation.rank" />
+              </md-input-container>
+              <label class="field_label">Price Information</label>
+              <md-input-container>
+                <md-select placeholder="Select Price" ng-model="newAccomodation.selectedPrice" required>
+                  <md-option value="{{Price.id}}" ng-repeat="Price in PriceRanges">{{Price.floor}} - {{Price.ceiling}}</md-option>
+                </md-select>
+              </md-input-container>
+              <md-input-container>
+                <label>Extra Information</label>
+                <input type="text" name="name" required ng-model="newAccomodation.extraInfo" />
+              </md-input-container>
+            </div>
+
+            <!--second column-->
+            <div flex="32" layout-padding layout-margin class="poi_columns">
+              <label class="field_label">Geo - Cluster</label>
+              <md-input-container>
+                <md-select placeholder="Select Geo-Cluster" ng-model="newAccomodation.cluster" required>
+                  <md-option value="{{cluster.id}}" ng-repeat="cluster in clusters">{{cluster.name}}</md-option>
+                </md-select>
+              </md-input-container>
+              <div layout="row">
+                <md-input-container layout-padding>
+                  <label>Latitude</label>
+                  <input type="text" maxlength="17" name="latitude" required ng-model="newAccomodation.latitude" />
+                </md-input-container>
+                <md-input-container layout-padding>
+                  <label>Longitude</label>
+                  <input type="text" maxlength="17" name="longitude" required ng-model="newAccomodation.longitude" />
+                </md-input-container>
+                <div class="full_width display_inline_blk map_pin" ng-click="pickLatLng($event)"></div>
+              </div>
+              <md-input-container>
+                <label>Accommodation Name</label>
+                <input type="text" maxlength="20" name="country" required ng-model="newAccomodation.name" />
+              </md-input-container>
+              <md-input-container>
+                <label>Contact Name</label>
+                <input type="text" maxlength="20" name="country" required ng-model="newAccomodation.contactName" />
+              </md-input-container>
+              <label class="field_label">Slider Image</label>
+              <label class="gray_text small_font" layout-margin>Dimension: 600 x 250px</label>
+              <div layout="row" layout-margin>
+                <md-button flex="40" class="md-raised browse_slider_btn">
+                  <input type="file" onchange="angular.element(this).scope().setSliderImage(this)" />Browse Image</md-button>
+                <md-button class="browse_slider_btn">
+                  <input type="file" multiple value="Browse Image" onchange="angular.element(this).scope().setSliderImage(this)">Add Multiple Images</md-button>
+              </div>
+
+              <div class="images_container">
+                <table class="full_width">
+                  <tbody>
+                    <tr ng-repeat="image in sliderImages">
+                      <td>
+                        <div class="display_inline_blk thumbnail" style="background:url({{image.srcUrl}}) no-repeat center">
+                          <div class="hide remove_thumb_btn" ng-click="removeSliderImage($index)"></div>
+                        </div>
+                      </td>
+                      <td>
+                        <textarea placeholder="Say something about this image..." ng-model="image.desc" class="img_desc" name="" id="" cols="30" rows="4" required></textarea>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div>&nbsp;</div>
+              
+               <div ng-show="sliderImages.length == 0">
+              <label class="field_label">Description</label>
+              <label class="gray_text small_font" layout-margin>Add multiple descriptions separated by commas</label>
+              <textarea name="" id="" cols="30" rows="10" class="description_box" ng-model="newAccomodation.description" required>                         </textarea>
+              </div>
+                
+            </div>
+
+            <!--third column-->
+            <div flex="32" layout-padding layout-margin class="poi_columns">
+              <md-input-container>
+                <label>Video URL | Vimeo URL</label>
+                <input type="url" name="videoUrl" required ng-model="newAccomodation.videoUrl" />
+              </md-input-container>
+              <md-input-container>
+                <label>Audio URL | Sound Cloud URL</label>
+                <input type="url" name="audioUrl" required ng-model="newAccomodation.audioUrl" />
+              </md-input-container>
+              <md-input-container>
+                <label>Phone Number</label>
+                <input type="tel" maxlength="15" name="phone" required ng-model="newAccomodation.phone" />
+              </md-input-container>
+              <md-input-container>
+                <label>Address</label>
+                <input type="text" maxlength="100" name="address" required ng-model="newAccomodation.address" />
+              </md-input-container>
+              <label class="field_label">Thumbnail</label>
+              <label class="gray_text small_font" layout-margin>Dimension: 250 x 250px</label>
+              <div class="thumbnail_container" layout-margin>
+                <md-button flex="40" class="md-raised browse_slider_btn">
+                  <input onchange="angular.element(this).scope().setThumbnail(this)" ng-model="thumbnail.fileName" type="file" value="Browse Image" accept="image/*">Browse Image</input>
+                </md-button>
+                <div class="display_inline_blk thumbnail" style="background:url({{thumbnail.srcUrl}}) no-repeat center" ng-if="thumbnail.srcUrl">
+                  <div class="hide remove_thumb_btn" ng-click="removeThumbnail()"></div>
+                </div>
+              </div>
+              <md-button class="md-raised md-primary full_width no_margin" ng-click="showNextForm($event)">Next</md-button>
+            </div>
+          </div>
+        </md-content>
+      </form>
+    </md-tab>
+    <md-tab label="two">
+      <form action="">
+        <md-content class="md-padding">
+          <div layout="row" layout-wrap layout-sm="column">
+            <div layout-padding>
+
+              <label class="field_label">Hotel Star Category</label>
+              <md-input-container>
+                <select name="" id="" ng-model="newAccomodation.starCategory" ng-options="stars.id as stars.name for stars in StarCategory" required>
+                  <option value="">Select Star Category</option>
+                </select>
+              </md-input-container>
+
+              <label class="field_label">Type of Room</label>
+              <md-input-container>
+                <select name="" id="" ng-model="newAccomodation.RoomTypes" ng-options="types.id as types.description for types in RoomTypes" required>
+                  <option value="">Select Star Category</option>
+                </select>
+              </md-input-container>
+
+              <md-input-container>
+                <label>Ranking priority</label>
+                <input type="number" ng-model="newAccomodation.rank" />
+              </md-input-container>
+              <label>Facilities</label>
+               <md-input-container>
+                <label>Add Facilities</label>
+                <input type="text" name="Facilities" ng-model="newAccomodation.Facilities" />
+              </md-input-container>
+              <md-button class="md-raised md-primary full_width" ng-click="submitAccomodation($event)">Submit Accommodation</md-button>
+              <md-button class="md-raised md-primary full_width" ng-click="showFirstForm(true)">Add One More</md-button>
+              <md-button class="md-raised md-primary full_width" ng-click="showFirstForm(false)">Previous</md-button>
+            </div>
+          </div>
+        </md-content>
+      </form>
+    </md-tab>
+  </md-tabs>
+</div>
+

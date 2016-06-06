@@ -1,0 +1,148 @@
+<div ng-controller="WaterTaxiCtrl">
+
+  <form action="" ng-submit="submitWaterTaxi($event)">
+    <div layout="row" layout-wrap layout-sm="column">
+      <!--first column-->
+      <div flex="32" layout-padding layout-margin class="poi_columns">
+        <label class="field_label">Add Water Taxi Country</label>
+        <md-input-container>
+          <select name="" id="" ng-model="waterTaxi.country" ng-change="getRespectiveStates()" ng-options="country.id as country.name for country in countries" required>
+            <option value="">Select Country</option>
+          </select>
+        </md-input-container>
+
+        <label class="field_label">State</label>
+        <md-input-container>
+          <select name="" id="" ng-model="waterTaxi.state" ng-change="getRespectiveCities()" ng-options="state.id as state.name for state in states" required>
+            <option value="">Select State</option>
+          </select>
+        </md-input-container>
+
+
+        <label class="field_label">City</label>
+        <md-input-container>
+          <select name="" id="" ng-model="waterTaxi.city" ng-change="getRespectiveClusters()" ng-options="city.id as city.name for city in cities" required>
+            <option value="">Select City</option>
+          </select>
+        </md-input-container>
+        <label class="field_label">Timing</label>
+        <md-input-container>
+          <md-select placeholder="Select time to visit" ng-model="selectedTimeslot" required>
+            <md-option value="{{timeslot.id}}" ng-repeat="timeslot in Timeslots">{{timeslot.name}}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label>Time to be spent in this place</label>
+          <input type="number" maxlength="20" name="name" required ng-model="waterTaxi.selectedHours" />
+        </md-input-container>
+        <md-input-container>
+          <label>Ranking Priority</label>
+          <input type="number" maxlength="20" name="name" required ng-model="newWaterTaxi.selectedPriority" />
+        </md-input-container>
+        <label class="field_label">Price Information</label>
+        <md-input-container>
+          <md-select placeholder="Select Price" ng-model="newWaterTaxi.selectedPrice" required>
+            <md-option value="{{Price.id}}" ng-repeat="Price in PriceRanges">{{Price.floor}} - {{Price.ceiling}}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label>Extra Information</label>
+          <input type="text" name="name" required ng-model="newWaterTaxi.extraInfo" />
+        </md-input-container>
+      </div>
+
+      <!--second column-->
+      <div flex="32" layout-padding layout-margin class="poi_columns">
+        <label class="field_label">Geo - Cluster</label>
+        <md-input-container>
+          <md-select placeholder="Select Geo-Cluster" ng-model="newWaterTaxi.cluster" required>
+            <md-option value="{{cluster.id}}" ng-repeat="cluster in clusters">{{cluster.name}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div layout="row">
+          <md-input-container layout-padding>
+            <label>Latitude</label>
+            <input type="text" maxlength="17" name="latitude" required ng-model="newWaterTaxi.latitude" />
+          </md-input-container>
+          <md-input-container layout-padding>
+            <label>Longitude</label>
+            <input type="text" maxlength="17" name="longitude" required ng-model="newWaterTaxi.longitude" />
+          </md-input-container>
+          <div class="full_width display_inline_blk map_pin" ng-click="pickLatLng($event)"></div>
+        </div>
+        <md-input-container>
+          <label>Water Taxi Name</label>
+          <input type="text" maxlength="20" name="country" required ng-model="newWaterTaxi.name" />
+        </md-input-container>
+        <md-input-container>
+          <label>Contact Name</label>
+          <input type="text" maxlength="20" name="country" required ng-model="newWaterTaxi.contactName" />
+        </md-input-container>
+        <label class="field_label">Slider Image</label>
+        <label class="gray_text small_font" layout-margin>Dimension: 600 x 250px</label>
+        <div layout="row" layout-margin>
+          <md-button flex="40" class="md-raised browse_slider_btn">
+
+            <input type="file" onchange="angular.element(this).scope().setSliderImage(this)" />Browse Image</md-button>
+          <md-button class="browse_slider_btn">
+            <input type="file" multiple value="Browse Image" onchange="angular.element(this).scope().setSliderImage(this)">Add Multiple Images</md-button>
+        </div>
+        <div class="images_container">
+          <table class="full_width">
+            <tbody>
+              <tr ng-repeat="image in sliderImages">
+                <td>
+                  <div class="display_inline_blk thumbnail" style="background:url({{image.srcUrl}}) no-repeat center">
+                    <div class="hide remove_thumb_btn" ng-click="removeSliderImage($index)"></div>
+                  </div>
+                </td>
+                <td>
+                  <textarea placeholder="Say something about this image..." ng-model="image.desc" class="img_desc" name="" id="" cols="30" rows="4" required></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>&nbsp;</div>
+          <div ng-show="sliderImages.length == 0">
+        <label class="field_label">Description</label>
+        <label class="gray_text small_font" layout-margin>Add multiple descriptions separated by commas</label>
+        <textarea name="" id="" cols="30" rows="10" class="description_box" ng-model="newWaterTaxi.description"></textarea>
+          </div>
+      </div>
+
+      <!--third column-->
+      <div flex="32" layout-padding layout-margin class="poi_columns">
+        <md-input-container>
+          <label>Video URL | Vimeo URL</label>
+          <input type="url" name="VideoUrl" required ng-model="newWaterTaxi.videoUrl" />
+        </md-input-container>
+        <md-input-container>
+          <label>Audio URL | Sound Cloud URL</label>
+          <input type="url" name="Audiourl" required ng-model="newWaterTaxi.audioUrl" />
+        </md-input-container>
+        <md-input-container>
+          <label>Phone Number</label>
+          <input type="tel" maxlength="20" name="cluster" required ng-model="newWaterTaxi.phone" />
+        </md-input-container>
+        <md-input-container>
+          <label>Address</label>
+          <input type="text" maxlength="20" name="name" required ng-model="newWaterTaxi.address" />
+        </md-input-container>
+        <label class="field_label">Thumbnail</label>
+        <label class="gray_text small_font" layout-margin>Dimension: 250 x 250px</label>
+        <div class="thumbnail_container" layout-margin>
+          <md-button flex="40" class="md-raised browse_slider_btn">
+            <input onchange="angular.element(this).scope().setThumbnail(this)" ng-model="thumbnail.fileName" type="file" value="Browse Image" accept="image/*">Browse Image</input>
+          </md-button>
+          <div class="display_inline_blk thumbnail" style="background:url({{thumbnail.srcUrl}}) no-repeat center" ng-if="thumbnail.srcUrl">
+            <div class="hide remove_thumb_btn" ng-click="removeThumbnail()"></div>
+          </div>
+        </div>
+        <!-- <md-button class="md-raised md-primary full_width no_margin" ng-click="uploadImage()">Submit Water Taxi Information</md-button>-->
+        <md-button class="md-raised md-primary full_width no_margin">Submit Water Taxi</md-button>
+      </div>
+    </div>
+  </form>
+</div>
+

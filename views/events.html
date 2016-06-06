@@ -1,0 +1,74 @@
+<div ng-controller="EventsCtrl">
+
+  <form action="" ng-submit="submitEvent($event)">
+    <div layout="row" layout-wrap layout-sm="column">
+      <!--first column-->
+      <div flex="25" layout-padding class="poi_columns">
+        <label class="field_label">Add Events</label>
+        <md-input-container>
+          <label>Event Name</label>
+          <input type="text" maxlength="20" name="name" required ng-model="events.name" />
+        </md-input-container>
+        <!--     <md-input-container>
+          <md-select placeholder="Select Events" ng-model="cluster.country" required>
+            <md-option value="{{events.value}}" ng-repeat="country in countries">{{events.label}}</md-option>
+          </md-select>
+        </md-input-container>-->
+        <md-input-container>
+          <select name="" id="" ng-model="events.country" ng-change="getRespectiveStates()" ng-options="country.id as country.name for country in countries" required>
+            <option value="">Select Country</option>
+          </select>
+        </md-input-container>
+
+
+        <md-input-container>
+          <select name="" id="" ng-model="events.state" ng-change="getRespectiveCities()" ng-options="state.id as state.name for state in states" required>
+            <option value="">Select State</option>
+          </select>
+        </md-input-container>
+
+        <md-input-container>
+          <select name="" id="" ng-model="events.city" ng-change=" " ng-options="city.id as city.name for city in cities" required>
+            <option value="">Select City</option>
+          </select>
+        </md-input-container>
+
+        <label class="field_label">Name Of POI</label>
+        <md-input-container>
+          <md-select placeholder="Select POI" ng-model="events.poi" required>
+            <md-option value="{{poiCat.id}}" ng-repeat="poiCat in pois">{{poiCat.name}}</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container>
+          <input type="text" pick-a-date="date" placeholder="Select Date" pick-a-date-options="dateOptions" ng-model="events.selectedDate" />
+        </md-input-container>
+        <md-button class="md-raised md-primary full_width no_margin">Submit Event</md-button>
+      </div>
+
+      <!--second column-->
+      <div flex="25" layout-padding class="poi_columns">
+        <md-input-container>
+          <label>Start Time</label>
+          <!--<input type="text" maxlength="20" name="country" placeholder="11 AM to 4 PM" required ng-model="events.timeFrame" />-->
+          <input type="text" pick-a-time="time" placeholder="Start Time" pick-a-time-options="timeOptions" ng-model="events.startTime" required/>
+        </md-input-container>
+        <md-input-container>
+          <label>End Time</label>
+          <input type="text" pick-a-time="time" placeholder="End Time" pick-a-time-options="timeOptions" ng-model="events.endTime" required/>
+        </md-input-container>
+        <label class="field_label">Trigger</label>
+        <md-input-container>
+          <md-select placeholder="Select Trigger" ng-model="events.selectedTrigger" required>
+            <md-option value="{{data.value}}" ng-repeat="data in trigger">{{data.label}}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label>Text</label>
+          <input type="text" maxlength="20" name="text" required ng-model="events.text" />
+        </md-input-container>
+      </div>
+    </div>
+  </form>
+</div>
+
